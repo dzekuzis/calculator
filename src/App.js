@@ -1,23 +1,57 @@
-import logo from './logo.svg';
+
+import { useState } from 'react';
 import './App.css';
+import Mygtukas from './components/Mygtukas/Mygtukas';
+
 
 function App() {
+
+
+  let [firstNumber, setFirstas] = useState(0)
+  let [secondNumber,  setSecondas] = useState(0)
+  let [suma, setSum ] = useState(0)
+
+ 
+
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+        <h1>Calculator</h1>
+     <div className='inputai'>
+        <input placeholder='first number' type='text'   onChange={(e)=> {setFirstas(e.target.value)}}></input>
+        <input placeholder='second number'  type='text'  onChange={(e)=> {setSecondas(e.target.value)}}></input>
+     </div>
+    {/* <button onClick={() => setSum(parseInt(firstNumber) + parseInt(secondNumber) )}>+</button> */}
+     <Mygtukas 
+     pirmas={firstNumber}
+     antras={secondNumber}
+     text={'+'}
+     operator={'+'}
+     setSum={setSum}
+     />
+     <Mygtukas 
+     pirmas={firstNumber}
+     antras={secondNumber}
+     text={'-'}
+     operator={'-'}
+     setSum={setSum}
+     />
+     <Mygtukas 
+     pirmas={firstNumber}
+     antras={secondNumber}
+     text={'*'}
+     operator={'*'}
+     setSum={setSum}
+     />
+     <Mygtukas 
+     pirmas={firstNumber}
+     antras={secondNumber}
+     text={'/'}
+     operator={'/'}
+     setSum={setSum}
+     />
+     
+    <div className='ats'>Answer: {suma}</div>
     </div>
   );
 }
