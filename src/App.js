@@ -1,65 +1,87 @@
 
 import { useState } from 'react';
 import './App.css';
-import Mygtukas from './components/Mygtukas/Mygtukas';
 
 
 function App() {
 
+    
+  let [calc, setCalc] = useState('')
+  let [results, setResults] = useState('')
 
-  let [firstNumber, setFirstas] = useState(0)
-  let [secondNumber,  setSecondas] = useState(0)
-  let [suma, setSum ] = useState(0)
+const ops =['/','+','-','*','.']
 
- const styles = {
-     color: `blueviolet`,
-     fontSize: `20px`,
-     fontFamily: `Trebuchet MS`,
-     
-     fontWeight: `900`
+  const updateCalc = (value) =>{
+    if(
+      ops.includes(value) && calc === '' ||
+      ops.includes(value) && ops.includes(calc.slice(-1))
+     ){
+      return
+     }
+    setCalc(calc + value)
+
+    if(!ops.includes(value)){
+      setResults(eval(calc + value).toString())
+    }
+  }
+ const createDigits =() =>{
+  let digits =[]
+  for(let i=1; i < 10;i++){
+    digits.push(<button
+    onClick={() => updateCalc(i.toString())}
+    key={i}>{i}</button>)
+  }
+  return digits;
  }
 
+const calculate = () =>{
+  setCalc(eval(calc).toString())
+}
+
+const deleteLast =() =>{
+  if(calc == ''){
+    return
+  }
+
+  const value = calc.slice(0, -1)
+
+  setCalc(value)
+}
+const deleteAll = () =>{
+  const value = ''
+  setCalc(value)
+  setResults(value)
+}
 
   return (
     <div className="App">
-        <h1>Calculator</h1>
-     <div className='inputai'>
-        <input style={styles} placeholder='first number' type='text'   onChange={(e)=> {setFirstas(e.target.value)}}></input>
-        <input style={styles} placeholder='second number'  type='text'  onChange={(e)=> {setSecondas(e.target.value)}}></input>
+        <h1>Barigu Skaiciuotuvas</h1>
+     <div className='display'>
+        { <span></span>}{calc || '0'}
      </div>
-    {/* <button onClick={() => setSum(parseInt(firstNumber) + parseInt(secondNumber) )}>+</button> */}
-     <Mygtukas 
-     pirmas={firstNumber}
-     antras={secondNumber}
-     text={'+'}
-     operator={'+'}
-     setSum={setSum}
-     />
-     <Mygtukas 
-     pirmas={firstNumber}
-     antras={secondNumber}
-     text={'-'}
-     operator={'-'}
-     setSum={setSum}
-     />
-     <Mygtukas 
-     pirmas={firstNumber}
-     antras={secondNumber}
-     text={'*'}
-     operator={'*'}
-     setSum={setSum}
-     />
-     <Mygtukas 
-     pirmas={firstNumber}
-     antras={secondNumber}
-     text={'/'}
-     operator={'/'}
-     setSum={setSum}
-     />
-     
-    <div className='ats'>Answer: {suma}</div>
+     <div className='operators'>
+      <button onClick={() => updateCalc('-')}>-</button>
+      <button onClick={() => updateCalc('+')}>+</button>
+      <button onClick={() => updateCalc('/')} >/</button>
+      <button onClick={() => updateCalc('*')} >*</button>
+
+      <button onClick={deleteLast}>DEL</button>
+      <button onClick={deleteAll}>AC</button>
+     </div>
+     <div className='digits'>
+         {createDigits()}
+         <button onClick={() => updateCalc('0')}>0</button>
+         <button onClick={() => updateCalc('.')}>.</button>
+
+         <button onClick={calculate}>=</button>
+         
+      </div>
+   
+        
+    
     </div>
   );
 }
 
 export default App;
+
